@@ -30,27 +30,27 @@ Track live stats & download export                    End screen (Completed / Cl
 
 ```mermaid
 flowchart TD
-    Start([Researcher enters admin]) --> Upload[Upload questionnaire .txt file]
-    Upload --> Validate{Check file syntax & logic}
+    Start([Researcher enters admin]) --> Upload["Upload questionnaire .txt file"]
+    Upload --> Validate{"Check file syntax and logic"}
     
-    Validate -- Errors Found --> ShowErrors[Show error list with line numbers]
-    ShowErrors --> FixFile[Fix file and re-upload]
+    Validate -- Errors Found --> ShowErrors["Show error list with line numbers"]
+    ShowErrors --> FixFile["Fix file and re-upload"]
     FixFile --> Upload
     
-    Validate -- Valid --> Preview[Preview & Test Mode]
-    Preview --> TestRun[Click through survey as test user]
-    TestRun --> NoteTest[Test responses are isolated from real data]
+    Validate -- Valid --> Preview["Preview and Test Mode"]
+    Preview --> TestRun["Click through survey as test user"]
+    TestRun --> NoteTest["Test responses are isolated from real data"]
     
-    TestRun --> Approve{Ready to launch?}
+    TestRun --> Approve{"Ready to launch?"}
     Approve -- Needs Changes --> Upload
-    Approve -- Approved --> FreezeVersion[Lock version as v1, v2, etc.]
+    Approve -- Approved --> FreezeVersion["Lock version as v1, v2, etc."]
     
-    FreezeVersion --> SetTargets[Set deadline & target quota]
-    SetTargets --> MakeLive[Set status to LIVE]
+    FreezeVersion --> SetTargets["Set deadline and target quota"]
+    SetTargets --> MakeLive["Set status to LIVE"]
     
-    MakeLive --> ShareLinks[Generate unique respondent links]
-    ShareLinks --> Dashboard[Live Dashboard: Started, Completed, Quotas]
-    Dashboard --> ExportData[Download clean CSV / Excel export]
+    MakeLive --> ShareLinks["Generate unique respondent links"]
+    ShareLinks --> Dashboard["Live Dashboard: Started, Completed, Quotas"]
+    Dashboard --> ExportData["Download clean CSV or Excel export"]
 ```
 
 ### Steps Explained:
@@ -68,44 +68,44 @@ flowchart TD
 flowchart TD
     OpenLink([Respondent opens unique link]) --> CheckLink{Check link token}
     
-    CheckLink -- Invalid token --> ErrScreen[Error: Invalid link]
-    CheckLink -- Already submitted --> DoneScreen[Screen: Already completed]
-    CheckLink -- Survey closed / quota full --> ClosedScreen[Screen: Survey is closed]
-    CheckLink -- In progress --> Resume[Fetch saved answers & resume]
-    CheckLink -- New link --> StartSurvey[Start from Question 1]
+    CheckLink -- Invalid token --> ErrScreen["Error: Invalid link"]
+    CheckLink -- Already submitted --> DoneScreen["Screen: Already completed"]
+    CheckLink -- Survey closed / quota full --> ClosedScreen["Screen: Survey is closed"]
+    CheckLink -- In progress --> Resume["Fetch saved answers and resume"]
+    CheckLink -- New link --> StartSurvey["Start from Question 1"]
     
-    StartSurvey --> ShowQ[Display current question]
+    StartSurvey --> ShowQ["Display current question"]
     Resume --> ShowQ
     
-    ShowQ --> SelectAnswer[Respondent enters / selects answer]
-    SelectAnswer --> AutoSave[Save answer to DB immediately]
+    ShowQ --> SelectAnswer["Respondent enters or selects answer"]
+    SelectAnswer --> AutoSave["Save answer to DB immediately"]
     
     AutoSave --> CheckTerminate{Disqualifying answer?}
-    CheckTerminate -- Yes --> TerminateUser[Mark status as Terminated & save reason]
-    TerminateUser --> CheckSilent{silent='true'?}
-    CheckSilent -- Yes --> PoliteScreen[Show polite generic thank you screen]
-    CheckSilent -- No --> DisqualifiedScreen[Screen: Not eligible]
+    CheckTerminate -- Yes --> TerminateUser["Mark status as Terminated and save reason"]
+    TerminateUser --> CheckSilent{"Is silent termination?"}
+    CheckSilent -- Yes --> PoliteScreen["Show polite generic thank you screen"]
+    CheckSilent -- No --> DisqualifiedScreen["Screen: Not eligible"]
     
     CheckTerminate -- No --> CheckQuota{Is quota full for this answer?}
-    CheckQuota -- Yes --> QuotaFull[Mark Terminated: 'Quota full']
+    CheckQuota -- Yes --> QuotaFull["Mark Terminated: Quota full"]
     QuotaFull --> DisqualifiedScreen
     
-    CheckQuota -- No --> LogicEngine[Check logic rules]
+    CheckQuota -- No --> LogicEngine["Check logic rules"]
     LogicEngine --> SkipCheck{Has skip-to?}
-    SkipCheck -- Yes --> JumpQ[Jump to target question]
-    SkipCheck -- No --> NextQ[Go to next question]
+    SkipCheck -- Yes --> JumpQ["Jump to target question"]
+    SkipCheck -- No --> NextQ["Go to next question"]
     
     JumpQ --> ShowIfCheck{Check show-if condition}
     NextQ --> ShowIfCheck
     
-    ShowIfCheck -- False --> SkipQ[Skip this question]
+    ShowIfCheck -- False --> SkipQ["Skip this question"]
     SkipQ --> ShowIfCheck
-    ShowIfCheck -- True --> ApplyPiping[Fill in piping tokens like [q7]]
+    ShowIfCheck -- True --> ApplyPiping["Insert piped answers into text"]
     
     ApplyPiping --> HasMore{More questions left?}
     HasMore -- Yes --> ShowQ
-    HasMore -- No --> Complete[Mark status = Completed<br/>Increment quota count]
-    Complete --> ThankYouScreen[Screen: Survey completed!]
+    HasMore -- No --> Complete["Mark status = Completed<br/>Increment quota count"]
+    Complete --> ThankYouScreen["Screen: Survey completed!"]
 ```
 
 ---
