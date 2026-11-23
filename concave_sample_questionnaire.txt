@@ -1,0 +1,96 @@
+<survey id="smartphone_study" title="Smartphone Usage Study" target="200">
+
+<question id="q0" type="info">
+  <text>Thank you for joining. This survey takes about 5 minutes.</text>
+</question>
+
+<question id="q1" type="consent" required>
+  <text>Do you agree to take part in this survey?</text>
+</question>
+
+<question id="q2" type="number" required min="18" max="60">
+  <text>What is your age?</text>
+</question>
+
+<question id="q3" type="single" required>
+  <text>What is your gender?</text>
+  <option>Male</option><option>Female</option>
+</question>
+
+<question id="q4" type="dropdown" required terminate-on="Other city" reason="City not in scope">
+  <text>Which city do you live in?</text>
+  <option>Mumbai</option><option>Pune</option><option>Delhi</option><option>Bengaluru</option>
+  <option>Other city</option>
+</question>
+
+<question id="q5" type="yesno" required terminate-on="No" reason="Not a smartphone user">
+  <text>Do you currently use a smartphone?</text>
+</question>
+
+<question id="q6" type="multi" required shuffle="true" max="3">
+  <text>Which smartphone brands have you used in the last 3 years? (pick up to 3)</text>
+  <option>Samsung</option><option>Apple</option><option>Xiaomi</option>
+  <option>OnePlus</option><option>Vivo</option><option>Oppo</option>
+  <option fixed="true" other="true">Other (specify)</option>
+</question>
+
+<question id="q7" type="single" required options-from="q6">
+  <text>Which of these brands do you use now?</text>
+</question>
+
+<question id="q8" type="rating" required min="1" max="5" low-label="Very unhappy" high-label="Very happy">
+  <text>How happy are you with your [q7] phone?</text>
+</question>
+
+<question id="q9" type="longtext" minlength="10" show-if="q8=1 OR q8=2">
+  <text>What makes you unhappy with your [q7] phone?</text>
+</question>
+
+<question id="q10" type="nps" required>
+  <text>How likely are you to recommend [q7] to a friend?</text>
+</question>
+
+<question id="q11" type="matrix" required>
+  <text>How much do you agree with each statement about your phone?</text>
+  <row>The battery lasts a full day</row>
+  <row>The camera takes good photos</row>
+  <row>It works smoothly without lag</row>
+  <row>It was good value for money</row>
+  <option>Strongly agree</option><option>Agree</option><option>Neutral</option>
+  <option>Disagree</option><option>Strongly disagree</option>
+</question>
+
+<question id="q12" type="yesno" required>
+  <text>Are you planning to buy a new phone in the next 6 months?</text>
+  <option>Yes</option><option skip-to="q16">No</option>
+</question>
+
+<question id="q13" type="number" required min="5000" max="200000">
+  <text>What is your budget for the new phone (in rupees)?</text>
+</question>
+
+<question id="q14" type="multi" required shuffle="true">
+  <text>Where will you look for information before buying?</text>
+  <option>YouTube reviews</option><option>Friends and family</option><option>Shop visit</option>
+  <option>Brand website</option><option>Online store reviews</option>
+  <option fixed="true" exclusive="true">None of these</option>
+</question>
+
+<question id="q15" type="single" required show-if="q12=Yes AND q4=Mumbai">
+  <text>Would you consider buying a phone on EMI?</text>
+  <option>Yes</option><option>No</option><option>Not sure</option>
+</question>
+
+<question id="q16" type="text" required>
+  <text>What is your name?</text>
+</question>
+
+<question id="q17" type="formatted" required format="pincode">
+  <text>What is your area pincode?</text>
+</question>
+
+<quota question="q3" value="Male" target="100"/>
+<quota question="q3" value="Female" target="100"/>
+<quota question="q4" value="Mumbai" target="80"/>
+
+</survey>

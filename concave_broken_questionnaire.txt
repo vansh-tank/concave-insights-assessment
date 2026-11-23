@@ -1,0 +1,60 @@
+<survey id="snack_study" title="Snack Habits Study" target="150">
+
+<question id="q1" type="consent" required>
+  <text>Do you agree to take part in this survey?</text>
+</question>
+
+<question id="q2" type="number" required min="18" max="45">
+  <text>What is your age?</text>
+</question>
+
+<question id="q3" type="singel" required>
+  <text>What is your gender?</text>
+  <option>Male</option><option>Female</option>
+</question>
+
+<question type="dropdown" required>
+  <text>Which city do you live in?</text>
+  <option>Mumbai</option><option>Pune</option><option>Delhi</option>
+</question>
+
+<question id="q5" type="yesno" required terminate-on="Never" reason="Does not eat snacks">
+  <text>Do you eat packaged snacks at least once a week?</text>
+</question>
+
+<question id="q6" type="multi" required shuffle="true">
+  <text>Which snack brands have you bought in the last month?</text>
+  <option>Lays</option><option>Kurkure</option><option>Haldiram's</option><option>Bingo</option>
+  <option fixed="true" other="true">Other (specify)</option>
+</question>
+
+<question id="q7" type="single" required options-from="q66">
+  <text>Which of these do you buy most often?</text>
+</question>
+
+<question id="q6" type="rating" required min="1" max="5">
+  <text>How much do you like [q7]?</text>
+</question>
+
+<question id="q9" type="longtext" minlength="10" show-if="q10=Yes">
+  <text>Why do you like [q7]?</text>
+</question>
+
+<question id="q10" type="single" required>
+  <text>Where do you usually buy snacks?</text>
+  <option>Local shop</option><option>Supermarket</option><option skip-to="q20">Quick commerce app</option>
+</question>
+
+<question id="q11" type="matrix" required>
+  <text>How important is each of these when you buy snacks?</text>
+  <row>Taste</row><row>Price</row><row>Pack size</row>
+</question>
+
+<question id="q12" type="text" required>
+  <text>What is your name?</text>
+</question>
+
+<quota question="q3" value="Others" target="50"/>
+<quota question="q2" value="Mumbai" target="60"/>
+
+</survey>
