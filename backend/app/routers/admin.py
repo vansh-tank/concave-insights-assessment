@@ -359,6 +359,32 @@ def update_survey_status(
     return {"survey_id": survey.id, "status": survey.status, "deadline": survey.deadline}
 
 
+@router.get("/surveys/{survey_id}/links")
+def list_respondent_links(survey_id: str, db: Session = Depends(get_db)):
+    """List existing respondent links and their status for a survey."""
+    survey = db.query(Survey).filter(Survey.id == survey_id).first()
+    if not survey:
+        raise HTTPException(status_code=404, detail="Survey not found.")
+    respondents = (
+        db.query(Respondent)
+        .filter(Respondent.survey_id == survey_id)
+        .order_by(Respondent.started_at.desc())
+        .limit(50)
+        .all()
+    )
+    return [
+        {
+            "respondent_id": r.id,
+            "token": r.token,
+            "url": f"/survey/{survey.id}?token={r.token}",
+            "status": r.status,
+            "is_test": r.is_test,
+            "started_at": r.started_at,
+        }
+        for r in respondents
+    ]
+
+
 @router.post("/surveys/{survey_id}/links", response_model=list[RespondentLinkSchema])
 def generate_respondent_links(
     survey_id: str,
